@@ -1,0 +1,29 @@
+{
+    "topico atual": "decidir_lugar",
+    "inicio_conversa": [
+        "boa tarde",
+        "boa noite",
+        "bom dia",
+        "bom dai",
+        "bom dia",
+        "oi",
+        "opa",
+        "eia",
+        "opa",
+        "iai",
+        "boa noite",
+        "boa noite",
+        "bom dia",
+        "opa",
+        "boa noite",
+        "opa",
+        "ei, vamos comer",
+        "opa",
+        "opa!!"
+    ],
+    "fim_conversa": [
+        "boa noite, preta!",
+        "tou bem"
+    ],
+    "estado": "inicio"
+}

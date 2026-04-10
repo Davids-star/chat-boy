@@ -1,0 +1,558 @@
+{
+  "intencoes": [
+
+    // ===== SAUDAÇÕES =====
+    {
+      "tag": "saudacao_inicial",
+      "topico": "saudacao",
+      "keywords": ["oi","olá","opa","eai","fala"],
+      "perguntas": [
+        "oi","olá","opa","eai","iai","fala",
+        "eae","iae","salve","eai pow","cuida"
+      ],
+      "respostas": [
+        "Oi! Tudo bem?",
+        "E aí! Como vai?",
+        "Fala! Como você tá?",
+        "Oi! Bom te ver!",
+        "E aí! Como posso te ajudar?"
+      ]
+    },
+
+    {
+      "tag": "bom_dia",
+      "topico": "saudacao",
+      "keywords": ["bom dia","bd"],
+      "perguntas": [
+        "bom dia",
+        "bd",
+        "bom dia tudo bem"
+      ],
+      "respostas": [
+        "Bom dia!",
+        "Bom dia! Estou bem, e você?",
+        "Bom dia! Tudo certo?"
+      ]
+    },
+
+    {
+      "tag": "boa_tarde",
+      "topico": "saudacao",
+      "keywords": ["boa tarde","bt"],
+      "perguntas": [
+        "boa tarde",
+        "bt"
+      ],
+      "respostas": [
+        "Boa tarde!",
+        "Boa tarde! Tudo certo por aí?"
+      ]
+    },
+
+    {
+      "tag": "boa_noite_inicial",
+      "topico": "saudacao",
+      "keywords": ["boa noite","bn"],
+      "perguntas": [
+        "boa noite",
+        "bn"
+      ],
+      "respostas": [
+        "Boa noite! Tudo bem?",
+        "Boa noite! Como você tá?"
+      ]
+    },
+
+    // ===== DESPEDIDA =====
+    {
+      "tag": "boa_noite_final",
+      "topico": "despedida",
+      "keywords": ["durma bem","até amanhã"],
+      "perguntas": [
+        "boa noite até amanhã",
+        "vou dormir boa noite"
+      ],
+      "respostas": [
+        "Boa noite! Durma bem",
+        "Boa noite! Até amanhã"
+      ]
+    },
+
+    {
+      "tag": "despedida",
+      "topico": "despedida",
+      "keywords": ["tchau","falou","valeu"],
+      "perguntas": [
+        "tchau","falou","até mais",
+        "valeu","obrigado","vou indo"
+      ],
+      "respostas": [
+        "Tchau! Até mais",
+        "Valeu! Qualquer coisa é só chamar",
+        "Até mais! Foi um prazer ajudar"
+      ]
+    },
+
+    // ===== CONVERSA =====
+
+    {
+      "tag": "como_voce_esta",
+      "topico": "conversa",
+      "keywords": ["como vc está","como voce esta","tudo bem"],
+      "perguntas": [
+        "como vc está",
+        "como voce está",
+        "como você está",
+        "como cê tá",
+        "tudo bem com você",
+        "vc tá bem",
+        "como vc tá",
+        "e você, tá bem",
+        "como vai você"
+    ],
+    "respostas": [
+      "Tô bem sim 😄 e você?",
+      "Tô tranquilo! E você?",
+      "Tudo certo por aqui, e contigo?",
+      "Tô de boa 😄 e você?",
+      "Tudo bem sim! E você?"
+    ]
+    },
+
+    {
+      "tag": "resposta_positiva",
+      "topico": "conversa",
+      "keywords": ["bem","estou sim","tô bem","to bem","tudo sim","tudo bem","estou bem"],
+      "perguntas": [
+        "tudo sim",
+        "tô bem",
+        "to bem",
+        "tudo bem",
+        "tudo certo",
+        "tô tranquilo",
+        "de boa",
+        "suave",
+        "estou"
+      ],
+      "respostas": [
+        "Que bom 😄",
+        "Boa!",
+        "Aí sim",
+        "Fico feliz em saber",
+        "Que maravilha",
+        "Ótimo saber disso"
+
+      ]
+    },
+   // ===== CLIMA =====    
+    {
+      "tag": "clima_calor",
+      "topico": "calor",
+      "keywords": ["calor", "quente", "sol", "muito quente", "calorão", "vou me derreter"],
+      "perguntas": [
+        "ta quente hj",
+        "tá muito quente hoje né?",
+        "que calor é esse?",
+        "tô morrendo de calor",
+        "hoje tá quente demais",
+        "não tô aguentando esse calor"
+      ],
+      "respostas": [
+        "Tá calor demais ",
+        "Nem fala, tá muito quente",
+        "Hoje tá de derreter",
+        "Calorzão pesado hoje"
+    ]
+  },
+    {
+      "tag": "clima_frio",
+      "topico": "frio",
+    "keywords": ["frio", "gelado", "vento frio", "esfriou", "friozinho"],
+      "perguntas": [
+        "tá frio hoje né?",
+        "que frio é esse?",
+        "tô com frio",
+        "hoje esfriou muito",
+        "esse vento tá gelado",
+        "tô enrolado já",
+        "já tô todo enrolado no cobertor",
+        "tô todo agasalhado",
+        "tô cheio de frio",
+        "já peguei o casaco",
+        "tô tremendo de frio",
+        "esse frio tá demais",
+        "já tô debaixo das cobertas",
+        "tô todo encolhido aqui",
+        "frio da gota hoje"
+      ],
+      "respostas": [
+        "Tá frio mesmo ",
+        "Deu uma esfriada boa",
+        "Friozinho gostoso",
+        "Hoje tá gelado viu"
+    ]
+  },
+  {
+    "tag": "clima_chuva",
+    "topico": "chuva",
+    "keywords": ["chuva", "chovendo", "garoa", "tempestade", "toró"],
+    "perguntas": [
+      "tá chovendo agora",
+      "começou a chover",
+      "chuva do nada",
+      "já tá caindo chuva aqui",
+      "tá maior chuva lá fora",
+      "começou o toró",
+      "só chuva agora",
+      "tá chovendo muito",
+      "chuva forte agora",
+      "peguei chuva agora"
+    ],
+      "respostas": [
+        "Eita, chuva do nada ",
+        "Agora complicou kkk",
+        "Chuva sempre chega assim",
+        "Melhor ficar em casa agora",
+        "Climinha de chuva bateu",
+        "Ta caindo agua menino"
+    ]
+},
+    // ===== Lembrou de mim =====
+    {     
+      "tag": "lembrou_de_mim",
+      "topico": "social",
+      "keywords": ["lembrei de você","lembrei de vc", "vi isso e lembrei de você", "escutei isso e lembrei de você", "parece com vc", "parece com você"],
+      "perguntas": [
+        "lembrei de você",
+        "lembrei de vc",
+        "tava ouvindo uma musica e lembrei de você",
+        "escutei uma musica e lembrei de você",
+        "vi algo e lembrei de você",
+        "lembrei de você aqui",
+        "do nada lembrei de você"
+      ],
+    "respostas": [
+      "Sério? por quê?",
+      "Olha só kkkkk, o que te fez lembrar?",
+      "Eita  gostei disso",
+      "Rapaz, agora fiquei curioso",
+      "Que bom, o que aconteceu?"
+      ]
+    },
+
+    // ===== LAZER / SAIR =====
+    {
+      "tag": "convite_sair",
+      "topico": "lazer",
+      "keywords": ["sair","role","bora","vamos","bora","ali"],
+      "perguntas": [
+        "vamos ali",
+        "bora ali",
+        "vamos ali rapidinho",
+        "bora ali agora",
+        "vamos sair",
+        "bora sair",
+        "tu pode sair",
+        "tu tá podendo sair",
+        "tá podendo sair",
+        "você pode sair agora",
+        "quer sair agora",
+        "vamos dar uma volta",
+        "bora dar uma volta",
+        "vamos ali fora",
+        "bora ali fora",
+        "topa sair agora",
+        "vamo ali",
+        "vamo sair",
+        "bora um rolê agora"
+      ],
+      "respostas": [
+        "Bora! Pra onde você quer ir?",
+        "Topo sim! Qual é a ideia?",
+        "Vamos! Tava querendo sair mesmo",
+        "Bora pra onde?",
+        "Topo sim! Qual é a ideia?",
+        "Vamos! Pra onde você quer ir?",
+        "Partiu só dizer o lugar",
+        "Bora! Tava querendo sair mesmo",
+        "Topo! Bora decidir o lugar",
+        "Vamos sim  o que você tem em mente?"
+      ]
+    },
+      {
+    "tag": "confirmacao_pergunta_lugar",
+    "topico": "decidir_lugar",
+    "keywords": ["vamos", "lugar", "onde"],
+    "perguntas": [
+      "pois vamos tem algum lugar em mente",
+      "vamos tem algum lugar em mente",
+      "bora tem algum lugar em mente",
+      "vamos pra onde",
+      "tem algum lugar em mente",
+      "Pode ser qualquer canto",
+      "Você prefere algum lugar?"
+    ],
+    "respostas": [
+      "Hmm, boa pergunta tem alguma ideia?",
+      "Ainda não pensei em lugar não, e você?",
+      "Pode ser qualquer canto, tem preferência?",
+      "Vamos decidir isso agora 😄 alguma sugestão?"
+    ]
+    },
+
+    {
+      "tag": "escolher_lugar",
+      "topico": "lazer",
+      "keywords": ["onde","pra onde"],
+      "perguntas": [
+        "pra onde vamos",
+        "onde vamos",
+        "vamos pra onde",
+        "qual lugar",
+        "esolhe ai"
+      ],
+      "respostas": [
+        "Que tal um bar?",
+        "Que tal um hambúrguer?",
+        "Vamos numa pizzaria?",
+        "Vamos comprar uma jantinha",
+        "Tem algum lugar que você prefere?"
+      ]
+    },
+
+    {
+      "tag": "comer",
+      "topico": "lazer",
+      "keywords": ["comer","lanchar","fome"],
+      "perguntas": [
+        "vamos comer",
+        "to com fome",
+        "bora lanchar",
+        "quer comer?"
+      ],
+      "respostas": [
+        "Bora! O que você prefere?",
+        "Partiu 😄 hambúrguer ou pizza?",
+        "Vamos sim! Tá com vontade de quê?",
+        "tou morrendo de fome"
+      ]
+    },
+
+    {
+      "tag": "comida_especifica",
+      "topico": "lazer",
+      "keywords": ["hamburguer","pizza","pastel","bar", "jantinha"],
+      "perguntas": [
+        "hamburguer",
+        "pizza",
+        "pastel",
+        "bar",
+        "jantinha",
+        "açai"
+      ],
+      "respostas": [
+        "Boa escolha",
+        "Aí sim! Partiu!",
+        "Top! Bora nessa",
+        "passa aqui pra nós ir",
+        "Vamos então"
+      ]
+    },
+
+    // ===== SAIR =====
+    {
+      "tag": "atividades_lazer",
+      "topico": "missa",
+      "keywords": ["missa","cinema","filme","jogo","horto"],
+      "perguntas": [
+        "vai pra missa?",
+        "bora pro cinema?",
+        "assistir o que?",
+        "tem jogo hoje?",
+        "vai pro horto?",
+        "queria ir no cinema mas não tem ninguém pra ir",
+        "bora assistir um filme"
+      ]
+    },
+     {
+      "tag": "atividade_missa",
+      "topico": "missa",
+      "keywords": ["missa", "igreja", "rezar", "culto"],
+      "perguntas": [
+        "vamos pra missa?",
+        "quer ir pra igreja hoje?",
+        "bora missa mais tarde?",
+        "tem missa hoje?",
+        "vamos rezar hoje?"
+      ],
+      "respostas": [
+        "Pode ser, vamos sim 🙏",
+        "Topo, que horas vai ser?",
+        "Boa ideia, gosto disso",
+        "Vamos sim, vai ser bom"
+      ]
+    },
+    {
+      "tag": "atividade_cinema",
+      "topico": "cinema",
+      "keywords": ["cinema", "filme", "telona", "sessão"],
+      "perguntas": [
+        "vamos pro cinema?",
+        "quer ir no cinema?",
+        "bora ver um filme no cinema?",
+        "tem algum filme bom no cinema?",
+        "vamos assistir algo no cinema?"
+      ],
+      "respostas": [
+        "Bora, adoro cinema 🍿",
+        "Topo demais, vamos ver o que tá passando",
+        "Pode ser, faz tempo que não vou",
+        "Vamos sim, boa ideia"
+      ]
+    },
+    {
+      "tag": "atividade_filme",
+      "topico": "filme",
+      "keywords": ["filme", "assistir", "netflix", "série"],
+      "perguntas": [
+        "vamos ver um filme?",
+        "quer assistir algo?",
+        "bora ver alguma coisa?",
+        "tem algum filme bom?",
+        "vamos assistir hoje?"
+      ],
+      "respostas": [
+        "Bora, escolhe um aí 🎬",
+        "Topo, qualquer filme tá valendo",
+        "Vamos sim, gosto disso",
+        "Boa, vamos assistir algo"
+      ]
+    },
+    {
+      "tag": "atividade_jogo",
+      "topico": "jogo",
+      "keywords": ["jogo", "jogar", "game", "partida"],
+      "perguntas": [
+        "vamos jogar?",
+        "bora jogar?",
+        "quer jogar alguma coisa?",
+        "vamos jogar um jogo?",
+        "partiu jogar?"
+      ],
+      "respostas": [
+        "Bora jogar 🎮",
+        "Topo, qual jogo?",
+        "Vamos sim, tô dentro",
+        "Partiu então"
+      ]
+    },
+    {
+      "tag": "atividade_horto",
+      "topico": "horto",
+      "keywords": ["horto", "trilha", "subir", "passeio"],
+      "perguntas": [
+        "vamos pro horto?",
+        "bora subir o horto?",
+        "quer ir pro horto?",
+        "vamos dar uma volta no horto?",
+        "partiu horto?"
+      ],
+      "respostas": [
+        "Bora, lá é massa 🌄",
+        "Topo, vai ser bom",
+        "Vamos sim, gosto de lá",
+        "Boa ideia, vamos"
+      ]
+    },
+
+    // ===== INDECISÃO =====
+
+    {
+      "tag": "indecisao",
+      "topico": "lazer",
+      "keywords": ["sei la","tanto faz","decide ai"],
+      "perguntas": [
+        "sei la",
+        "sem ideias",
+        "tanto faz",
+        "não sei",
+        "escolhe você",
+        "decide ai",
+        "escolhe ai",
+        "você que sabe",
+        "Pra mim tanto faz mesmo",
+        "Não faço ideia",
+        "Não faço ideia"
+
+      ],
+      "respostas": [
+        "Então deixa comigo 😄",
+        "Posso escolher então",
+        "Vou pensar em algo legal"
+      ]
+    },
+    
+  {
+    "tag": "planejamento_tarde",
+    "topico": "planos",
+    "keywords": ["fazer", "tarde", "planos", "mais tarde"],
+    "perguntas": [
+      "fazer o que mais tarde?",
+      "fazer oq mais tarde?",
+      "o que vamos fazer mais tarde?",
+      "qual o plano pra mais tarde?",
+      "tem algo pra fazer mais tarde?",
+      "vamos fazer o que depois?",
+      "o que a gente faz mais tarde?",
+      "tem plano pra hoje mais tarde?",
+      "qual a boa pra mais tarde?",
+      "o que rola mais tarde?"
+    ],
+    "respostas": [
+      "Não sei ainda 😅 tem alguma ideia?",
+      "A gente pode ver isso depois, alguma sugestão?",
+      "Tô aberto a ideias, o que tu acha?",
+      "Nada planejado ainda kkk",
+      "A gente decide mais tarde 😄",
+      "Pode ser qualquer coisa, só chamar",
+      "Vamos combinar depois",
+      "Ainda não pensei nisso não"
+    ]
+  },
+    {
+      "tag": "confirmacao_positiva",
+      "topico": "lazer",
+      "keywords": ["sim","fechou","bora"],
+      "perguntas": [
+        "sim",
+        "fechou",
+        "beleza",
+        "bora",
+        "partiu"
+      ],
+      "respostas": [
+        "Bora!",
+        "Fechou então 😄",
+        "Partiu!",
+        "Combinado!",
+        "pois vamos então!"
+      ]
+    },
+
+
+
+    // ===== ERRO =====
+    {
+      "tag": "nao_entendido",
+      "topico": "erro",
+      "keywords": [],
+      "perguntas": [],
+      "respostas": [
+        "Não entendi muito bem, pode explicar melhor?",
+        "Pode reformular a pergunta?",
+        "Não consegui entender direito 😅"
+      ]
+    }
+
+  ]
+}
