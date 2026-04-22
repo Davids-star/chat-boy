@@ -5,225 +5,295 @@ import os
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
+import joblib
 
 
-def carregar_json(caminho):
-    with open(caminho, "r", encoding="utf-8") as f:
-        conteudo = f.read()
-    conteudo = re.sub(r"//.*", "", conteudo)
-    return json.loads(conteudo)
-
-def salvar_json(dados, caminho):
-    with open(caminho, "w", encoding="utf-8") as f:
-        json.dump(dados, f, indent=4, ensure_ascii=False)
-
-def limpar(texto):
-    texto = texto.lower()
-    texto = re.sub(r"<.*?>", "", texto)
-    texto = re.sub(r"[^\w\s]", "", texto)
-    texto = re.sub(r"\s+", " ", texto)
-    return texto.strip()
-
-def palavras_importantes(texto):
-    stopwords = {
-        "o", "a", "os", "as", "de", "do", "da", "e",
-        "é", "to", "ta", "tá", "um", "uma",
-        "o", "no", "na", "lá", "li", "meu", "minha",
-        "pra", "pro", "que", "como", "isso", "ai"
-    }
-
-    palavras = limpar(texto).split()
-    return [p for p in palavras if p not in stopwords]
-
-def treinar_modelo(base):
-    frases = []
-    tags = []
-
-    for item in base.get("intencoes", []):
-        if "perguntas" in item:
-            for pergunta in item["perguntas"]:
-                frases.append(pergunta)
-                tags.append(item["tag"])
-    
-    modelo = Pipeline([
-        ("tfidf", TfidfVectorizer(analyzer="word", ngram_range=(1,2))),
-        ("clf", MultinomialNB())
-    ])
-
-    modelo.fit(frases, tags)
-    return modelo
-
-def similaridade(a, b):
-    p1 = set(palavras_importantes(a))
-    p2 = set(palavras_importantes(b))
-
-    if not p1 or not p2:
-        return 0
-
-    return len(p1.intersection(p2)) / len(p1.union(p2))
-
-        #Função em que faz o meu py guarda memoria ao conversar com alguém
-
-def carregar_memoria(caminho="memoria.json"):
-    if not os.path.exists(caminho):
-        memoria = {"inicio_conversa":[], "fim_conversa":[], "topico atual": None , "Estado": "inicio"}
-        salvar_json(memoria, caminho)
-        return memoria
-    else:
-        memoria = carregar_json(caminho)
-        # Garantir que as chaves existam
-        if "inicio_conversa" not in memoria:
-             memoria["inicio_conversa"] = []
-        if "fim_conversa" not in memoria:
-             memoria["fim_conversa"] = []
-        if "estado" not in memoria:
-            memoria["estado"] = "inicio"
-        return memoria
-def set_estado(memoria, estado):
-    memoria["estado"] = estado
-    salvar_memoria(memoria)
-
-def get_estado(memoria):
-    return memoria.get("estado", "inicio")
-def salvar_memoria(memoria, caminho="memoria.json"):
-    salvar_json(memoria, caminho)
-
-def adicionar_inicio(memoria, msg):
-    memoria["inicio_conversa"].append(msg)
-    salvar_memoria(memoria)
-
-def adicionar_fim(memoria, msg):
-    memoria["fim_conversa"].append(msg)
-    salvar_memoria(memoria)
-    
-def gerenciar_memoria(memoria, topico = None, acao="get"):
-    if acao == "set" and topico:
-        memoria["topico atual"] = topico
-
-        return None
-    elif acao == "get":
-        return memoria.get("topico atual", None)
-    else:
-        return None
-    
+class Config:
+    ARQUIVO_INTENCOES = "intencoes.jsonc"
+    ARQUIVO_MEMORIA   = "memoria.json"
+    ARQUIVO_MODELO    = "modelo_cache.pkl"
 
 
-def responder(msg, base, memoria, modelo):
-    msg = limpar(msg)
-    estado = get_estado(memoria)
+# ---------------------------------------------------------------------------
+# MEMÓRIA
+# ---------------------------------------------------------------------------
 
-    melhor = None
-    maior_score = 0
+class Memoria:
+    def __init__(self, caminho):
+        self.caminho = caminho
+        self.dados   = self._carregar()
 
-    if get_estado(memoria) == "fim":
-        # reseta contexto
-        gerenciar_memoria(memoria, topico=None, acao="set")
-        set_estado(memoria, "inicio")
+    def _carregar(self):
+        base = {
+            "topico_atual":        None,
+            "estado":              "inicio",
+            "aguardando":          [],       # tags esperadas na próxima mensagem
+            "intencao_ativa":      None,     # intenção que está "segurando" o contexto
+            "voltas_no_topico":    0,        # quantas vezes ficou no mesmo tópico sem avançar
+            "msgs_sem_encaixe":    0,        # mensagens que não encaixaram nas esperadas
+            "historico_tags":      [],       # últimas 10 tags disparadas
+        }
+        if not os.path.exists(self.caminho):
+            return base
+        with open(self.caminho, "r", encoding="utf-8") as f:
+            dados = json.load(f)
+        for k, v in base.items():
+            dados.setdefault(k, v)
+        return dados
 
-    msg = limpar(msg)
-    topico_atual = gerenciar_memoria(memoria, acao="get")
-    
-    # Busca combinando similaridade, palavras-chave e contexto
-    for item in base.get("intencoes", []):
-        score_sim = 0
-        for pergunta in item["perguntas"]:
-            s = similaridade(msg, pergunta)
-            if s > score_sim:
-                score_sim = s
-        
-        score_kw = 0
-        if "keywords" in item:
-            qt_kw = 0
-            for kw in item["keywords"]:
-                if re.search(r'\b' + re.escape(kw) + r'\b', msg.lower()):
-                    qt_kw += 1
-            if qt_kw > 0:
-                score_kw = 0.5 + (0.1 * qt_kw) # Dá peso alto se achou kw
-                
-        # Reforço se pertencer ao mesmo tópico de conversa atual
-        score_contexto = 0
-        if topico_atual and item.get("topico") == topico_atual:
-            score_contexto = 0.3
+    def salvar(self):
+        with open(self.caminho, "w", encoding="utf-8") as f:
+            json.dump(self.dados, f, indent=4, ensure_ascii=False)
 
-        score_total = score_sim + score_kw + score_contexto
+    def set_estado(self, estado: str):
+        self.dados["estado"] = estado
+        self.salvar()
 
-        if score_total > maior_score:
-            maior_score = score_total
-            melhor = item
+    def atualizar_apos_resposta(self, intencao: dict, veio_de_fallback: bool = False):
+        """
+        Atualiza o estado da memória após uma intenção ser escolhida.
+        veio_de_fallback=True indica que a resposta veio do fallback_resposta,
+        ou seja, o bot não avançou no fluxo — só repetiu o contexto.
+        """
+        novo_topico = intencao.get("topico")
 
-    if melhor and maior_score >= 0.5:
-        tag = melhor["tag"]
-        estado_atual = get_estado(memoria)
-
-        # 🧠 Controle de estado
-        if tag in ["despedida", "boa_noite_final"]:
-            set_estado(memoria, "fim")
-        elif tag in ["saudacao_inicial", "bom_dia", "boa_tarde", "boa_noite_inicial"]:
-            if estado_atual != "meio":
-                set_estado(memoria, "inicio")
+        if veio_de_fallback:
+            # não avançou: incrementa contadores de loop
+            self.dados["msgs_sem_encaixe"]  += 1
+            self.dados["voltas_no_topico"]  += 1
         else:
-            if estado_atual != "inicio":
-                set_estado(memoria, "fim")
+            # avançou normalmente: reseta contadores e atualiza tudo
+            self.dados["msgs_sem_encaixe"]   = 0
+            self.dados["voltas_no_topico"]   = 0 if novo_topico != self.dados["topico_atual"] else self.dados["voltas_no_topico"]
+            self.dados["topico_atual"]       = novo_topico
+            self.dados["aguardando"]         = intencao.get("proximo_esperado", [])
+            self.dados["intencao_ativa"]     = intencao.get("tag")
 
-        gerenciar_memoria(memoria, topico=melhor.get("topico"), acao="set")
-        salvar_memoria(memoria)
-        return random.choice(melhor["respostas"])
+        # histórico sempre cresce
+        hist = self.dados["historico_tags"]
+        hist.append(intencao["tag"])
+        self.dados["historico_tags"] = hist[-10:]
+
+        if intencao["tag"] in ("despedida", "boa_noite_final"):
+            self.dados["estado"] = "fim"
+
+        self.salvar()
+
+    def expirou(self, intencao_ativa: dict | None) -> bool:
+        """Verifica se o contexto atual expirou pelo limite de msgs_sem_encaixe."""
+        if not intencao_ativa:
+            return False
+        limite = intencao_ativa.get("expira_em", 3)
+        return self.dados["msgs_sem_encaixe"] >= limite
+
+    def loop_estourou(self, intencao_ativa: dict | None) -> bool:
+        """Verifica se o bot ficou em loop no mesmo tópico além do max_voltas."""
+        if not intencao_ativa:
+            return False
+        limite = intencao_ativa.get("max_voltas", 3)
+        return self.dados["voltas_no_topico"] >= limite
+
+    def resetar_contexto(self):
+        """Limpa o contexto quando expira ou estoura o loop."""
+        self.dados["aguardando"]        = []
+        self.dados["intencao_ativa"]    = None
+        self.dados["msgs_sem_encaixe"]  = 0
+        self.dados["voltas_no_topico"]  = 0
+        self.dados["topico_atual"]      = None
+        self.salvar()
 
 
-    # --- Machine Learning ---
-    tag_ml = modelo.predict([msg])[0]
-    probs = modelo.predict_proba([msg])[0]
-    confianca = max(probs)
+# ---------------------------------------------------------------------------
+# RESULTADO DA BUSCA — carrega informação extra para o ChatBot
+# ---------------------------------------------------------------------------
 
-    if confianca > 0.6 and maior_score < 0.5:
-        for item in base["intencoes"]:
-            if item["tag"] == tag_ml:
-                if tag_ml in ["despedida", "boa_noite_final"]:
-                    if estado == "inicio":
-                        continue
-                    set_estado(memoria, "fim")
+class ResultadoBusca:
+    def __init__(self, intencao: dict, veio_de_fallback: bool = False, resposta_override: str | None = None):
+        self.intencao         = intencao
+        self.veio_de_fallback = veio_de_fallback
+        self.resposta_override = resposta_override  # fallback_resposta personalizada
 
-                elif tag_ml in ["saudacao_inicial", "bom_dia", "boa_tarde", "boa_noite_inicial"]:
-                    set_estado(memoria, "meio")
+    def escolher_resposta(self) -> str:
+        if self.resposta_override:
+            return self.resposta_override
+        return random.choice(self.intencao.get("respostas", ["..."]))
 
-                else:
-                    set_estado(memoria, "meio")
-                gerenciar_memoria(memoria, topico=item.get("topico"), acao="set")
-                salvar_memoria(memoria)
-                return random.choice(item["respostas"])
 
-    # Se não houver score decente, cai no não entendido
-    nao_entendido = next((item for item in base["intencoes"] if item.get("tag")=="nao_entendido"), None)
-    return random.choice(nao_entendido["respostas"])
-  
-    
-# rodar
-base = carregar_json("intencoes.jsonc")
-memoria = carregar_memoria()
-modelo = treinar_modelo(base) # Treina o modelo com a base atual
+# ---------------------------------------------------------------------------
+# CÉREBRO
+# ---------------------------------------------------------------------------
 
-print("🤖 Bot iniciado (digite sair ou Ctrl+C)\n")
+class Cerebro:
+    BONUS_AGUARDANDO   = 0.6
+    BONUS_TOPICO       = 0.3
+    BONUS_KEYWORD      = 0.5
+    THRESHOLD_SIM      = 0.3   # com contexto
+    THRESHOLD_SIM_FRIO = 0.5   # sem contexto
+    THRESHOLD_ML       = 0.55
 
-primeira_mensagem = True
-ultima_mensagem = None
+    def __init__(self, caminho_json: str):
+        self.caminho = caminho_json
+        self.base    = self._carregar_json(caminho_json)
+        self.modelo  = self._carregar_ou_treinar()
+        # índice tag → intenção para lookup O(1)
+        self._idx    = {i["tag"]: i for i in self.base["intencoes"]}
 
-try:
-    while True:
-        msg = input("Você: ")
+    # ── carregamento ──────────────────────────────────────────────────────
 
-        if msg.lower() == "sair":
-            if ultima_mensagem:
-                adicionar_fim(memoria, ultima_mensagem)
-            break
+    def _carregar_json(self, caminho: str) -> dict:
+        with open(caminho, "r", encoding="utf-8") as f:
+            texto = re.sub(r"//.*", "", f.read())
+            return json.loads(texto)
 
-        if primeira_mensagem:
-            adicionar_inicio(memoria, msg)
-            primeira_mensagem = False
+    def _carregar_ou_treinar(self):
+        if os.path.exists(Config.ARQUIVO_MODELO):
+            cache = joblib.load(Config.ARQUIVO_MODELO)
+            if cache.get("mtime") == os.path.getmtime(self.caminho):
+                return cache["modelo"]
+        modelo = self._treinar()
+        joblib.dump({"modelo": modelo, "mtime": os.path.getmtime(self.caminho)}, Config.ARQUIVO_MODELO)
+        return modelo
 
-        resposta = responder(msg, base, memoria, modelo)
-        print("Bot:", resposta)
-        ultima_mensagem = msg  # Guarda para ser possivelmente a última antes de sair
-except KeyboardInterrupt:
-    print("\n👋 Bot encerrado. Até logo!")
-except Exception as e:
-    print(f"\n❌ Ocorreu um erro: {e}")
+    def _treinar(self):
+        frases, tags = [], []
+        for i in self.base["intencoes"]:
+            for p in i.get("perguntas", []):
+                frases.append(p)
+                tags.append(i["tag"])
+        m = Pipeline([("tfidf", TfidfVectorizer(ngram_range=(1, 2))), ("clf", MultinomialNB())])
+        m.fit(frases, tags)
+        return m
+
+    # ── utilidades ────────────────────────────────────────────────────────
+
+    def _limpar(self, texto: str) -> str:
+        return re.sub(r"[^\w\s]", "", texto.lower()).strip()
+
+    def _similaridade(self, a: str, b: str) -> float:
+        s1 = set(self._limpar(a).split())
+        s2 = set(self._limpar(b).split())
+        return len(s1 & s2) / len(s1 | s2) if s1 | s2 else 0
+
+    def _score_base(self, msg_limpa: str, item: dict) -> float:
+        """Score puro de similaridade + keyword, sem bônus de contexto."""
+        perguntas = item.get("perguntas", [])
+        score = max((self._similaridade(msg_limpa, p) for p in perguntas), default=0)
+        if any(k in msg_limpa for k in item.get("keywords", [])):
+            score += self.BONUS_KEYWORD
+        return score
+
+    def _melhor_entre(self, msg_limpa: str, itens: list[dict], threshold: float) -> dict | None:
+        """Retorna a melhor intenção de uma lista se passar do threshold, senão None."""
+        melhor, maior = None, 0
+        for item in itens:
+            s = self._score_base(msg_limpa, item)
+            if s > maior:
+                maior, melhor = s, item
+        return melhor if melhor and maior >= threshold else None
+
+    # ── 4 camadas de busca ────────────────────────────────────────────────
+
+    def _camada_esperadas(self, msg_limpa: str, memoria: Memoria) -> dict | None:
+        """Camada 1: busca só entre as tags que o bot está aguardando."""
+        aguardando = memoria.dados.get("aguardando", [])
+        if not aguardando:
+            return None
+        itens = [self._idx[t] for t in aguardando if t in self._idx]
+        return self._melhor_entre(msg_limpa, itens, self.THRESHOLD_SIM)
+
+    def _camada_topico(self, msg_limpa: str, memoria: Memoria) -> dict | None:
+        """Camada 2: busca qualquer intenção do mesmo tópico ativo."""
+        topico = memoria.dados.get("topico_atual")
+        if not topico:
+            return None
+        itens = [i for i in self.base["intencoes"] if i.get("topico") == topico]
+        return self._melhor_entre(msg_limpa, itens, self.THRESHOLD_SIM)
+
+    def _camada_livre(self, msg_limpa: str) -> dict | None:
+        """Camada 3: busca livre em todo o JSON."""
+        return self._melhor_entre(msg_limpa, self.base["intencoes"], self.THRESHOLD_SIM_FRIO)
+
+    def _camada_ml(self, msg_limpa: str) -> dict | None:
+        """Camada 3b: fallback com Naive Bayes se a busca livre falhou."""
+        tag  = self.modelo.predict([msg_limpa])[0]
+        prob = max(self.modelo.predict_proba([msg_limpa])[0])
+        if prob > self.THRESHOLD_ML:
+            return self._idx.get(tag)
+        return None
+
+    def _nao_entendido(self) -> dict:
+        return self._idx.get("nao_entendido", {"tag": "nao_entendido", "respostas": ["Não entendi, pode repetir?"]})
+
+    # ── entrada principal ─────────────────────────────────────────────────
+
+    def buscar_melhor_resposta(self, msg: str, memoria: Memoria) -> ResultadoBusca:
+        msg_limpa       = self._limpar(msg)
+        intencao_ativa  = self._idx.get(memoria.dados.get("intencao_ativa", ""))
+
+        # ── verifica se o contexto expirou ou entrou em loop ──
+        if memoria.expirou(intencao_ativa) or memoria.loop_estourou(intencao_ativa):
+            memoria.resetar_contexto()
+            intencao_ativa = None
+
+        # ── camada 1: tags esperadas ──
+        resultado = self._camada_esperadas(msg_limpa, memoria)
+        if resultado:
+            return ResultadoBusca(resultado)
+
+        # ── camada 2: mesmo tópico (fallback_topico) ──
+        resultado = self._camada_topico(msg_limpa, memoria)
+        if resultado:
+            return ResultadoBusca(resultado)
+
+        # ── se tinha contexto mas não encontrou nada: usa fallback_resposta ──
+        if intencao_ativa and intencao_ativa.get("fallback_resposta"):
+            resposta = random.choice(intencao_ativa["fallback_resposta"])
+            return ResultadoBusca(intencao_ativa, veio_de_fallback=True, resposta_override=resposta)
+
+        # ── camada 3: busca livre ──
+        resultado = self._camada_livre(msg_limpa) or self._camada_ml(msg_limpa)
+        if resultado:
+            return ResultadoBusca(resultado)
+
+        # ── camada 4: não entendeu ──
+        return ResultadoBusca(self._nao_entendido())
+
+
+# ---------------------------------------------------------------------------
+# CHATBOT
+# ---------------------------------------------------------------------------
+
+class ChatBot:
+    def __init__(self):
+        self.cerebro = Cerebro(Config.ARQUIVO_INTENCOES)
+        self.memoria = Memoria(Config.ARQUIVO_MEMORIA)
+
+    def escutar(self):
+        total = len(self.cerebro.base["intencoes"])
+        print(f"🤖 Bot Online | {total} intenções carregadas\n")
+        try:
+            while True:
+                msg = input("Você: ").strip()
+                if not msg:
+                    continue
+                if msg.lower() in ("sair", "exit"):
+                    break
+
+                busca    = self.cerebro.buscar_melhor_resposta(msg, self.memoria)
+                resposta = busca.escolher_resposta()
+
+                # DEBUG — remova em produção
+                print(f"  [tag={busca.intencao['tag']} | fallback={busca.veio_de_fallback}"
+                      f" | aguardando={self.memoria.dados.get('aguardando', [])}"
+                      f" | voltas={self.memoria.dados.get('voltas_no_topico', 0)}"
+                      f" | sem_encaixe={self.memoria.dados.get('msgs_sem_encaixe', 0)}]")
+
+                self.memoria.atualizar_apos_resposta(busca.intencao, busca.veio_de_fallback)
+                print(f"Bot: {resposta}\n")
+
+        except KeyboardInterrupt:
+            pass
+
+
+if __name__ == "__main__":
+    ChatBot().escutar()
