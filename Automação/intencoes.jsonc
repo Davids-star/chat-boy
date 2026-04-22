@@ -5,100 +5,122 @@
     {
       "tag": "saudacao_inicial",
       "topico": "saudacao",
-      "keywords": ["oi","olá","opa","eai","fala"],
+      "keywords": ["oi", "olá", "opa", "eai", "fala", "salve"],
       "perguntas": [
-        "oi","olá","opa","eai","iai","fala",
-        "eae","iae","salve","eai pow","cuida"
+        "oi", "olá", "opa", "eai", "iai", "fala",
+        "eae", "iae", "salve", "eai pow", "cuida", "oi oi"
       ],
       "respostas": [
         "Oi! Tudo bem?",
         "E aí! Como vai?",
         "Fala! Como você tá?",
-        "Oi! Bom te ver!",
-        "E aí! Como posso te ajudar?"
+        "Oi 😄 Sumido hein",
+        "E aí! O que manda?"
+      ],
+      "proximo_esperado": ["como_voce_esta", "resposta_positiva", "convite_sair"],
+      "fallback_topico": "saudacao",
+      "fallback_resposta": [
+        "Não peguei direito — tudo bem por aí?",
+        "Pode repetir? Não entendi muito bem 😅"
       ]
     },
 
     {
       "tag": "bom_dia",
       "topico": "saudacao",
-      "keywords": ["bom dia","bd"],
+      "keywords": ["bom dia", "bd"],
       "perguntas": [
         "bom dia",
         "bd",
-        "bom dia tudo bem"
+        "bom dia tudo bem",
+        "bom dia meu chapa"
       ],
       "respostas": [
-        "Bom dia!",
-        "Bom dia! Estou bem, e você?",
-        "Bom dia! Tudo certo?"
+        "Bom dia! ☀️",
+        "Bom dia! Tudo certo?",
+        "Bom dia! Dormiu bem?"
+      ],
+      "proximo_esperado": ["como_voce_esta", "resposta_positiva"],
+      "fallback_topico": "saudacao",
+      "fallback_resposta": [
+        "Bom dia! Tá tudo bem?",
+        "Oi, pode falar 😄"
       ]
     },
 
     {
       "tag": "boa_tarde",
       "topico": "saudacao",
-      "keywords": ["boa tarde","bt"],
+      "keywords": ["boa tarde", "bt"],
       "perguntas": [
         "boa tarde",
-        "bt"
+        "bt",
+        "boa tardinha"
       ],
       "respostas": [
-        "Boa tarde!",
-        "Boa tarde! Tudo certo por aí?"
-      ]
+        "Boa tarde! ☀️",
+        "Boa tarde! Tudo certo por aí?",
+        "Tardinha boa!"
+      ],
+      "proximo_esperado": ["como_voce_esta", "resposta_positiva"]
     },
 
     {
       "tag": "boa_noite_inicial",
       "topico": "saudacao",
-      "keywords": ["boa noite","bn"],
+      "keywords": ["boa noite", "bn"],
       "perguntas": [
         "boa noite",
-        "bn"
+        "bn",
+        "boa noitinha"
       ],
       "respostas": [
-        "Boa noite! Tudo bem?",
+        "Boa noite! 🌙 Tudo bem?",
         "Boa noite! Como você tá?"
-      ]
+      ],
+      "proximo_esperado": ["como_voce_esta", "resposta_positiva"]
     },
 
     // ===== DESPEDIDA =====
     {
       "tag": "boa_noite_final",
       "topico": "despedida",
-      "keywords": ["durma bem","até amanhã"],
+      "keywords": ["durma bem", "até amanhã", "vou dormir"],
       "perguntas": [
         "boa noite até amanhã",
-        "vou dormir boa noite"
+        "vou dormir boa noite",
+        "vou dormir",
+        "hora de dormir"
       ],
       "respostas": [
-        "Boa noite! Durma bem",
-        "Boa noite! Até amanhã"
+        "Boa noite! Durma bem 🌙",
+        "Boa noite! Até amanhã",
+        "Vai descansar, até amanhã!"
       ]
     },
 
     {
       "tag": "despedida",
       "topico": "despedida",
-      "keywords": ["tchau","falou","valeu"],
+      "keywords": ["tchau", "falou", "valeu", "até mais"],
       "perguntas": [
-        "tchau","falou","até mais",
-        "valeu","obrigado","vou indo"
+        "tchau", "falou", "até mais",
+        "valeu", "obrigado", "vou indo",
+        "abraço", "até logo", "flw"
       ],
       "respostas": [
-        "Tchau! Até mais",
+        "Tchau! Até mais 👋",
         "Valeu! Qualquer coisa é só chamar",
-        "Até mais! Foi um prazer ajudar"
+        "Até mais! Foi bom conversar",
+        "Falou! Cuida-se"
       ]
     },
 
     // ===== CONVERSA =====
-
     {
       "tag": "como_voce_esta",
       "topico": "conversa",
-      "keywords": ["como vc está","como voce esta","tudo bem"],
+      "keywords": ["como vc está", "tudo bem", "como vai", "tá bem"],
       "perguntas": [
         "como vc está",
         "como voce está",
@@ -108,21 +130,28 @@
         "vc tá bem",
         "como vc tá",
         "e você, tá bem",
-        "como vai você"
-    ],
-    "respostas": [
-      "Tô bem sim 😄 e você?",
-      "Tô tranquilo! E você?",
-      "Tudo certo por aqui, e contigo?",
-      "Tô de boa 😄 e você?",
-      "Tudo bem sim! E você?"
-    ]
+        "como vai você",
+        "como tá você"
+      ],
+      "respostas": [
+        "Tô bem sim 😄 e você?",
+        "Tô tranquilo! E você?",
+        "Tudo certo por aqui, e contigo?",
+        "Tô de boa 😄 e você?",
+        "Tô na boa, e você?"
+      ],
+      "proximo_esperado": ["resposta_positiva", "resposta_negativa"],
+      "fallback_topico": "conversa",
+      "fallback_resposta": [
+        "Não entendi — tá bem ou não tá? 😄",
+        "Me conta, como você tá?"
+      ]
     },
 
     {
       "tag": "resposta_positiva",
       "topico": "conversa",
-      "keywords": ["bem","estou sim","tô bem","to bem","tudo sim","tudo bem","estou bem"],
+      "keywords": ["bem", "tô bem", "tudo bem", "de boa", "suave", "tranquilo"],
       "perguntas": [
         "tudo sim",
         "tô bem",
@@ -132,42 +161,77 @@
         "tô tranquilo",
         "de boa",
         "suave",
-        "estou"
+        "estou bem",
+        "tô tranquilão"
       ],
       "respostas": [
         "Que bom 😄",
         "Boa!",
-        "Aí sim",
+        "Aí sim!",
         "Fico feliz em saber",
-        "Que maravilha",
-        "Ótimo saber disso"
-
+        "Menos mal kkk"
+      ],
+      "proximo_esperado": ["convite_sair", "sugerir_comer", "planejamento_tarde"],
+      "fallback_topico": "conversa",
+      "fallback_resposta": [
+        "Que bom! E aí, vai fazer o que hoje?",
+        "Boa! Tem algo planejado?"
       ]
     },
-   // ===== CLIMA =====    
+
+    {
+      "tag": "resposta_negativa",
+      "topico": "conversa",
+      "keywords": ["mal", "ruim", "cansado", "estressado", "triste"],
+      "perguntas": [
+        "tô mal",
+        "não tô bem",
+        "tô cansado",
+        "tô estressado",
+        "tô triste",
+        "tô na fossa",
+        "tô péssimo"
+      ],
+      "respostas": [
+        "Que pena 😕 o que aconteceu?",
+        "Puxa, tô aqui se quiser conversar",
+        "Eita, tudo bem não? Conta aí",
+        "Ô isso, o que tá rolando?"
+      ]
+    },
+
+    // ===== CLIMA =====
     {
       "tag": "clima_calor",
       "topico": "calor",
-      "keywords": ["calor", "quente", "sol", "muito quente", "calorão", "vou me derreter"],
+      "keywords": ["calor", "quente", "sol", "calorão"],
       "perguntas": [
         "ta quente hj",
         "tá muito quente hoje né?",
         "que calor é esse?",
         "tô morrendo de calor",
         "hoje tá quente demais",
-        "não tô aguentando esse calor"
+        "não tô aguentando esse calor",
+        "calorão hoje"
       ],
       "respostas": [
-        "Tá calor demais ",
+        "Tá calor demais mesmo 🥵",
         "Nem fala, tá muito quente",
-        "Hoje tá de derreter",
-        "Calorzão pesado hoje"
-    ]
-  },
+        "Hoje tá de derreter kkk",
+        "Calorzão pesado hoje hein"
+      ],
+      "proximo_esperado": ["sugerir_comer", "convite_sair"],
+      "fallback_topico": "calor",
+      "fallback_resposta": [
+        "É demais né? Bora sair ou comer algo gelado? 😄",
+        "Com esse calor dá vontade de ir tomar um sorvete"
+      ]
+    },
+
     {
       "tag": "clima_frio",
       "topico": "frio",
-    "keywords": ["frio", "gelado", "vento frio", "esfriou", "friozinho"],
+      "keywords": ["frio", "gelado", "esfriou", "friozinho"],
       "perguntas": [
         "tá frio hoje né?",
         "que frio é esse?",
@@ -175,53 +239,52 @@
         "hoje esfriou muito",
         "esse vento tá gelado",
         "tô enrolado já",
-        "já tô todo enrolado no cobertor",
         "tô todo agasalhado",
-        "tô cheio de frio",
-        "já peguei o casaco",
         "tô tremendo de frio",
         "esse frio tá demais",
         "já tô debaixo das cobertas",
-        "tô todo encolhido aqui",
         "frio da gota hoje"
       ],
       "respostas": [
-        "Tá frio mesmo ",
+        "Tá frio mesmo 🥶",
         "Deu uma esfriada boa",
-        "Friozinho gostoso",
-        "Hoje tá gelado viu"
-    ]
-  },
-  {
-    "tag": "clima_chuva",
-    "topico": "chuva",
-    "keywords": ["chuva", "chovendo", "garoa", "tempestade", "toró"],
-    "perguntas": [
-      "tá chovendo agora",
-      "começou a chover",
-      "chuva do nada",
-      "já tá caindo chuva aqui",
-      "tá maior chuva lá fora",
-      "começou o toró",
-      "só chuva agora",
-      "tá chovendo muito",
-      "chuva forte agora",
-      "peguei chuva agora"
-    ],
+        "Friozinho gostoso kkk",
+        "Hoje tá gelado viu",
+        "Deu pra sentir aqui também"
+      ]
+    },
+
+    {
+      "tag": "clima_chuva",
+      "topico": "chuva",
+      "keywords": ["chuva", "chovendo", "garoa", "tempestade", "toró"],
+      "perguntas": [
+        "tá chovendo agora",
+        "começou a chover",
+        "chuva do nada",
+        "já tá caindo chuva aqui",
+        "tá maior chuva lá fora",
+        "começou o toró",
+        "só chuva agora",
+        "tá chovendo muito",
+        "chuva forte agora",
+        "peguei chuva agora"
+      ],
       "respostas": [
-        "Eita, chuva do nada ",
+        "Eita, chuva do nada 🌧️",
         "Agora complicou kkk",
         "Chuva sempre chega assim",
         "Melhor ficar em casa agora",
         "Climinha de chuva bateu",
-        "Ta caindo agua menino"
-    ]
-},
-    // ===== Lembrou de mim =====
-    {     
+        "Tá caindo água menino"
+      ]
+    },
+
+    // ===== LEMBROU DE MIM =====
+    {
       "tag": "lembrou_de_mim",
       "topico": "social",
-      "keywords": ["lembrei de você","lembrei de vc", "vi isso e lembrei de você", "escutei isso e lembrei de você", "parece com vc", "parece com você"],
+      "keywords": ["lembrei de você", "lembrei de vc", "parece com vc"],
       "perguntas": [
         "lembrei de você",
         "lembrei de vc",
@@ -229,22 +292,23 @@
         "escutei uma musica e lembrei de você",
         "vi algo e lembrei de você",
         "lembrei de você aqui",
-        "do nada lembrei de você"
+        "do nada lembrei de você",
+        "isso te lembra"
       ],
-    "respostas": [
-      "Sério? por quê?",
-      "Olha só kkkkk, o que te fez lembrar?",
-      "Eita  gostei disso",
-      "Rapaz, agora fiquei curioso",
-      "Que bom, o que aconteceu?"
+      "respostas": [
+        "Sério? por quê? 😄",
+        "Olha só kkkkk, o que te fez lembrar?",
+        "Eita, gostei disso kkk",
+        "Rapaz, agora fiquei curioso",
+        "Que bom, o que aconteceu?"
       ]
     },
 
     // ===== LAZER / SAIR =====
     {
       "tag": "convite_sair",
-      "topico": "lazer",
-      "keywords": ["sair","role","bora","vamos","bora","ali"],
+      "topico": "decidir_lugar",
+      "keywords": ["sair", "role", "bora", "vamos", "ali"],
       "perguntas": [
         "vamos ali",
         "bora ali",
@@ -253,14 +317,11 @@
         "vamos sair",
         "bora sair",
         "tu pode sair",
-        "tu tá podendo sair",
         "tá podendo sair",
         "você pode sair agora",
         "quer sair agora",
         "vamos dar uma volta",
         "bora dar uma volta",
-        "vamos ali fora",
-        "bora ali fora",
         "topa sair agora",
         "vamo ali",
         "vamo sair",
@@ -269,112 +330,248 @@
       "respostas": [
         "Bora! Pra onde você quer ir?",
         "Topo sim! Qual é a ideia?",
-        "Vamos! Tava querendo sair mesmo",
+        "Vamos! Tava querendo sair mesmo 😄",
         "Bora pra onde?",
-        "Topo sim! Qual é a ideia?",
-        "Vamos! Pra onde você quer ir?",
-        "Partiu só dizer o lugar",
-        "Bora! Tava querendo sair mesmo",
-        "Topo! Bora decidir o lugar",
-        "Vamos sim  o que você tem em mente?"
+        "Partiu! Só dizer o lugar",
+        "Topo! Bora decidir o lugar"
+      ],
+      "proximo_esperado": ["escolher_lugar", "sugerir_comer", "recusar_sair"],
+      "fallback_topico": "decidir_lugar",
+      "fallback_resposta": [
+        "Eita, não entendi — vai sair ou não vai? 😄",
+        "Me fala — bora sair ou deixa pra outro dia?"
       ]
     },
-      {
-    "tag": "confirmacao_pergunta_lugar",
-    "topico": "decidir_lugar",
-    "keywords": ["vamos", "lugar", "onde"],
-    "perguntas": [
-      "pois vamos tem algum lugar em mente",
-      "vamos tem algum lugar em mente",
-      "bora tem algum lugar em mente",
-      "vamos pra onde",
-      "tem algum lugar em mente",
-      "Pode ser qualquer canto",
-      "Você prefere algum lugar?"
-    ],
-    "respostas": [
-      "Hmm, boa pergunta tem alguma ideia?",
-      "Ainda não pensei em lugar não, e você?",
-      "Pode ser qualquer canto, tem preferência?",
-      "Vamos decidir isso agora 😄 alguma sugestão?"
-    ]
+
+    {
+      "tag": "recusar_sair",
+      "topico": "decidir_lugar",
+      "keywords": ["não posso", "não dá", "tô ocupado", "hoje não"],
+      "perguntas": [
+        "hoje não dá",
+        "não posso agora",
+        "tô ocupado",
+        "não tô podendo",
+        "deixa pra outro dia",
+        "hoje não tô afim"
+      ],
+      "respostas": [
+        "Ah que pena, fica pra próxima então",
+        "Tudo bem, outro dia a gente vai 😄",
+        "Sem problema, qualquer hora 👍"
+      ],
+      "proximo_esperado": ["despedida", "planejamento_tarde"],
+      "fallback_topico": "decidir_lugar",
+      "fallback_resposta": [
+        "Sem problema! Fica pra próxima então 😄",
+        "Qualquer hora, é só chamar 👍"
+      ]
+    },
+
+    {
+      "tag": "sugerir_comer",
+      "topico": "decidir_lugar",
+      "keywords": ["comer", "lanche", "comida", "fome", "ideia", "lanchar"],
+      "perguntas": [
+        "tem alguma ideia pra nos ir comer",
+        "bora comer alguma coisa",
+        "tô com fome",
+        "vamos comer",
+        "bora num restaurante",
+        "que tal comer fora",
+        "to com fome",
+        "bora lanchar",
+        "quer comer?",
+        "vamos lanchar"
+      ],
+      "respostas": [
+        "Boa ideia! Tem algum lugar em mente?",
+        "Que tipo de comida você tá afim?",
+        "Bora! Prefere pizza, hambúrguer, japonês?",
+        "Tô dentro 😄 o que você tá com vontade?"
+      ],
+      "proximo_esperado": ["escolher_lugar", "rejeitar_lugar"],
+      "fallback_topico": "decidir_lugar",
+      "fallback_resposta": [
+        "Não entendi — tem algum lugar em mente ou quer que eu sugira?",
+        "Hmm, qual é a ideia? Pizza, hambúrguer...?"
+      ]
     },
 
     {
       "tag": "escolher_lugar",
-      "topico": "lazer",
-      "keywords": ["onde","pra onde"],
+      "topico": "decidir_lugar",
+      "keywords": ["onde", "lugar", "restaurante", "qual", "pra onde"],
       "perguntas": [
-        "pra onde vamos",
-        "onde vamos",
-        "vamos pra onde",
+        "que restaurante",
         "qual lugar",
-        "esolhe ai"
+        "onde vamos",
+        "você decide",
+        "escolhe aí",
+        "pra onde vamos",
+        "decide você",
+        "escolhe ai"
       ],
       "respostas": [
-        "Que tal um bar?",
-        "Que tal um hambúrguer?",
-        "Vamos numa pizzaria?",
-        "Vamos comprar uma jantinha",
-        "Tem algum lugar que você prefere?"
+        "Que tal uma pizzaria? 🍕",
+        "Tem um hambúrguer ali perto, bora?",
+        "Que tal um japonês? 🍣",
+        "Boa pergunta, tem preferência?",
+        "Hmm, e um bar pra relaxar?"
+      ],
+      "proximo_esperado": ["confirmar_lugar", "rejeitar_lugar"],
+      "fallback_topico": "decidir_lugar",
+      "fallback_resposta": [
+        "Hmm, não entendi — você tá afim de que tipo de comida?",
+        "Me dá uma dica do que você quer comer que eu ajudo a decidir 😄"
       ]
     },
 
     {
-      "tag": "comer",
-      "topico": "lazer",
-      "keywords": ["comer","lanchar","fome"],
+      "tag": "confirmar_lugar",
+      "topico": "decidir_lugar",
+      "keywords": ["sim", "bora", "pode ser", "fechou", "combinado", "beleza"],
       "perguntas": [
-        "vamos comer",
-        "to com fome",
-        "bora lanchar",
-        "quer comer?"
+        "pode ser",
+        "bora",
+        "fechou",
+        "tá bom",
+        "combinado",
+        "boa ideia",
+        "sim",
+        "beleza",
+        "partiu",
+        "aí sim",
+        "boa"
       ],
       "respostas": [
-        "Bora! O que você prefere?",
-        "Partiu 😄 hambúrguer ou pizza?",
-        "Vamos sim! Tá com vontade de quê?",
-        "tou morrendo de fome"
+        "Fechou! Que horas a gente sai?",
+        "Combinado! Me avisa quando sair 😄",
+        "Bora então! Tô animado",
+        "Partiu! Vai ser bom demais"
+      ],
+      "proximo_esperado": ["horario_saida", "despedida"],
+      "fallback_topico": "decidir_lugar",
+      "fallback_resposta": [
+        "Fechou! Só me fala que horas ou me fala até mais 😄",
+        "Combinado! Vai sair agora ou mais tarde?"
+      ]
+    },
+
+    {
+      "tag": "rejeitar_lugar",
+      "topico": "decidir_lugar",
+      "keywords": [
+        "não", "nao", "nam", "outro", "prefiro", "não quero",
+        "odeio", "detesto", "não gosto", "nao gosto", "não curto",
+        "não tô afim", "nao to afim", "que tal outro", "salgado",
+        "outra coisa", "não gosto de", "nunca gostei"
+      ],
+      "perguntas": [
+        "não quero ir lá",
+        "prefiro outro lugar",
+        "não tô afim disso",
+        "tem outro lugar",
+        "não gosto de lá",
+        "outro lugar",
+        "odeio peixe",
+        "odeio sushi",
+        "detesto peixe",
+        "não gosto de peixe",
+        "nao gosto de peixe",
+        "não gosto de japonês",
+        "não curto essa comida",
+        "nao curto isso",
+        "que tal algo mais salgado",
+        "prefiro algo mais salgado",
+        "quero outra coisa",
+        "não é isso que eu quero",
+        "nao quero isso",
+        "não gosto disso",
+        "essa comida não",
+        "detesto isso",
+        "horrível esse lugar",
+        "não curto esse tipo",
+        "nunca gostei disso",
+        "nem pensar nesse lugar",
+        "não vou nesse lugar",
+        "prefiro hamburguer",
+        "prefiro pizza",
+        "prefiro algo diferente"
+      ],
+      "respostas": [
+        "Ah entendi! Que tipo de comida você prefere então?",
+        "Sem problema! Quer hambúrguer, pizza, ou outra coisa?",
+        "Tá, me fala o que você tá com vontade 😄",
+        "Beleza, odeio forçar ninguém a comer o que não gosta kkk — o que você prefere?",
+        "Tudo bem! Me diz o que você tá afim"
+      ],
+      "proximo_esperado": ["escolher_lugar", "sugerir_comer", "comida_especifica"],
+      "fallback_topico": "decidir_lugar",
+      "fallback_resposta": [
+        "Tá, mas então o que você quer? Me dá uma dica 😄",
+        "Beleza, mas alguma ideia você tem né? Fala aí"
+      ]
+    },
+
+    {
+      "tag": "horario_saida",
+      "topico": "decidir_lugar",
+      "keywords": ["horas", "que horas", "quando", "horário"],
+      "perguntas": [
+        "que horas?",
+        "quando a gente sai?",
+        "que horas vamos?",
+        "a que horas?",
+        "pode ser às 7",
+        "tipo umas 8"
+      ],
+      "respostas": [
+        "Fechado! Combinado então 😄",
+        "Beleza, me avisa quando tiver pronto",
+        "Boa, tô esperando!"
+      ],
+      "proximo_esperado": ["despedida", "confirmacao_positiva"],
+      "fallback_topico": "decidir_lugar",
+      "fallback_resposta": [
+        "Que horas você tá pensando? Ou vai cancelar? 😄",
+        "Me fala a hora ou avisa quando quiser sair"
       ]
     },
 
     {
       "tag": "comida_especifica",
-      "topico": "lazer",
-      "keywords": ["hamburguer","pizza","pastel","bar", "jantinha"],
+      "topico": "decidir_lugar",
+      "keywords": ["hamburguer", "pizza", "pastel", "bar", "jantinha", "churrascaria", "japonês", "açai"],
       "perguntas": [
         "hamburguer",
         "pizza",
         "pastel",
         "bar",
         "jantinha",
-        "açai"
+        "açai",
+        "churrascaria",
+        "japonês",
+        "temaki",
+        "x burguer"
       ],
       "respostas": [
-        "Boa escolha",
+        "Boa escolha 👍",
         "Aí sim! Partiu!",
         "Top! Bora nessa",
-        "passa aqui pra nós ir",
-        "Vamos então"
+        "Passa aqui pra gente ir",
+        "Vamos então! 😄"
+      ],
+      "proximo_esperado": ["confirmar_lugar", "horario_saida"],
+      "fallback_topico": "decidir_lugar",
+      "fallback_resposta": [
+        "Então fechou nessa? Me confirma aí 😄",
+        "Bora nesse ou tá pensando em outro?"
       ]
     },
 
-    // ===== SAIR =====
+    // ===== ATIVIDADES DE LAZER =====
     {
-      "tag": "atividades_lazer",
-      "topico": "missa",
-      "keywords": ["missa","cinema","filme","jogo","horto"],
-      "perguntas": [
-        "vai pra missa?",
-        "bora pro cinema?",
-        "assistir o que?",
-        "tem jogo hoje?",
-        "vai pro horto?",
-        "queria ir no cinema mas não tem ninguém pra ir",
-        "bora assistir um filme"
-      ]
-    },
-     {
       "tag": "atividade_missa",
       "topico": "missa",
       "keywords": ["missa", "igreja", "rezar", "culto"],
@@ -390,8 +587,10 @@
         "Topo, que horas vai ser?",
         "Boa ideia, gosto disso",
         "Vamos sim, vai ser bom"
-      ]
+      ],
+      "proximo_esperado": ["confirmar_lugar", "horario_saida"]
     },
+
     {
       "tag": "atividade_cinema",
       "topico": "cinema",
@@ -401,15 +600,22 @@
         "quer ir no cinema?",
         "bora ver um filme no cinema?",
         "tem algum filme bom no cinema?",
-        "vamos assistir algo no cinema?"
+        "bora assistir algo no cinema?"
       ],
       "respostas": [
         "Bora, adoro cinema 🍿",
         "Topo demais, vamos ver o que tá passando",
         "Pode ser, faz tempo que não vou",
         "Vamos sim, boa ideia"
+      ],
+      "proximo_esperado": ["confirmar_lugar", "horario_saida", "rejeitar_lugar"],
+      "fallback_topico": "cinema",
+      "fallback_resposta": [
+        "Então, vai no cinema ou não vai? 🍿",
+        "Bora pro cinema ou mudou de ideia?"
       ]
     },
+
     {
       "tag": "atividade_filme",
       "topico": "filme",
@@ -426,8 +632,15 @@
         "Topo, qualquer filme tá valendo",
         "Vamos sim, gosto disso",
         "Boa, vamos assistir algo"
+      ],
+      "proximo_esperado": ["confirmar_lugar", "indecisao"],
+      "fallback_topico": "filme",
+      "fallback_resposta": [
+        "Vai assistir qual? Ou prefere que eu escolha? 🎬",
+        "Fecha um filme aí ou tá sem ideia?"
       ]
     },
+
     {
       "tag": "atividade_jogo",
       "topico": "jogo",
@@ -443,9 +656,11 @@
         "Bora jogar 🎮",
         "Topo, qual jogo?",
         "Vamos sim, tô dentro",
-        "Partiu então"
-      ]
+        "Partiu então!"
+      ],
+      "proximo_esperado": ["confirmar_lugar", "indecisao"]
     },
+
     {
       "tag": "atividade_horto",
       "topico": "horto",
@@ -462,15 +677,15 @@
         "Topo, vai ser bom",
         "Vamos sim, gosto de lá",
         "Boa ideia, vamos"
-      ]
+      ],
+      "proximo_esperado": ["confirmar_lugar", "horario_saida"]
     },
 
     // ===== INDECISÃO =====
-
     {
       "tag": "indecisao",
       "topico": "lazer",
-      "keywords": ["sei la","tanto faz","decide ai"],
+      "keywords": ["sei la", "tanto faz", "decide ai", "qualquer coisa"],
       "perguntas": [
         "sei la",
         "sem ideias",
@@ -480,66 +695,83 @@
         "decide ai",
         "escolhe ai",
         "você que sabe",
-        "Pra mim tanto faz mesmo",
-        "Não faço ideia",
-        "Não faço ideia"
-
+        "pra mim tanto faz mesmo",
+        "não faço ideia",
+        "pode escolher você"
       ],
       "respostas": [
         "Então deixa comigo 😄",
         "Posso escolher então",
-        "Vou pensar em algo legal"
+        "Vou pensar em algo legal",
+        "Deixa eu ver uma boa ideia aqui kkk"
+      ],
+      "proximo_esperado": ["escolher_lugar", "comida_especifica"],
+      "fallback_topico": "lazer",
+      "fallback_resposta": [
+        "Hmm, tô esperando você decidir kkk",
+        "Qualquer coisa tá ótimo, me fala um lugar ou comida"
       ]
     },
-    
-  {
-    "tag": "planejamento_tarde",
-    "topico": "planos",
-    "keywords": ["fazer", "tarde", "planos", "mais tarde"],
-    "perguntas": [
-      "fazer o que mais tarde?",
-      "fazer oq mais tarde?",
-      "o que vamos fazer mais tarde?",
-      "qual o plano pra mais tarde?",
-      "tem algo pra fazer mais tarde?",
-      "vamos fazer o que depois?",
-      "o que a gente faz mais tarde?",
-      "tem plano pra hoje mais tarde?",
-      "qual a boa pra mais tarde?",
-      "o que rola mais tarde?"
-    ],
-    "respostas": [
-      "Não sei ainda 😅 tem alguma ideia?",
-      "A gente pode ver isso depois, alguma sugestão?",
-      "Tô aberto a ideias, o que tu acha?",
-      "Nada planejado ainda kkk",
-      "A gente decide mais tarde 😄",
-      "Pode ser qualquer coisa, só chamar",
-      "Vamos combinar depois",
-      "Ainda não pensei nisso não"
-    ]
-  },
+
+    // ===== PLANEJAMENTO =====
+    {
+      "tag": "planejamento_tarde",
+      "topico": "planos",
+      "keywords": ["fazer", "tarde", "planos", "mais tarde"],
+      "perguntas": [
+        "fazer o que mais tarde?",
+        "fazer oq mais tarde?",
+        "o que vamos fazer mais tarde?",
+        "qual o plano pra mais tarde?",
+        "tem algo pra fazer mais tarde?",
+        "vamos fazer o que depois?",
+        "o que a gente faz mais tarde?",
+        "qual a boa pra mais tarde?",
+        "o que rola mais tarde?"
+      ],
+      "respostas": [
+        "Não sei ainda 😅 tem alguma ideia?",
+        "Tô aberto a ideias, o que tu acha?",
+        "Nada planejado ainda kkk",
+        "A gente decide mais tarde 😄",
+        "Ainda não pensei nisso não, e você?"
+      ],
+      "proximo_esperado": ["convite_sair", "sugerir_comer", "indecisao"],
+      "fallback_topico": "planos",
+      "fallback_resposta": [
+        "Não entendi bem — tem algum plano ou não?",
+        "Me fala alguma ideia do que quer fazer mais tarde 😄"
+      ]
+    },
+
     {
       "tag": "confirmacao_positiva",
       "topico": "lazer",
-      "keywords": ["sim","fechou","bora"],
+      "keywords": ["sim", "fechou", "bora", "combinado"],
       "perguntas": [
         "sim",
         "fechou",
         "beleza",
         "bora",
-        "partiu"
+        "partiu",
+        "combinado",
+        "tá bom",
+        "ok"
       ],
       "respostas": [
-        "Bora!",
-        "Fechou então 😄",
+        "Bora! 😄",
+        "Fechou então!",
         "Partiu!",
         "Combinado!",
-        "pois vamos então!"
+        "Pois vamos então!"
+      ],
+      "proximo_esperado": ["horario_saida", "despedida"],
+      "fallback_topico": "lazer",
+      "fallback_resposta": [
+        "Eita, não entendi — mas bora! Me fala a hora",
+        "Confirmado? Só me avisa que horas então 😄"
       ]
     },
-
-
 
     // ===== ERRO =====
     {
@@ -548,9 +780,10 @@
       "keywords": [],
       "perguntas": [],
       "respostas": [
-        "Não entendi muito bem, pode explicar melhor?",
-        "Pode reformular a pergunta?",
-        "Não consegui entender direito 😅"
+        "Não entendi muito bem, pode explicar melhor? 😅",
+        "Pode reformular? Não peguei direito",
+        "Hmm, não entendi direito 😅",
+        "Repete isso pra mim?"
       ]
     }
 
